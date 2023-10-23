@@ -1,36 +1,28 @@
 package backjoon
 
 import java.util.Scanner
+import kotlin.math.max
 
 fun main() {
     val sc = Scanner(System.`in`)
-
     val day = sc.nextInt()
-    val sangdam = Array(day, {0})
-    val money = Array(day, {0})
-    var average = Array<Long>(day, {0})
-    val saveI = Array(day, {0})
+    val a = Array(day + 1) { 0 }
+    val b = Array(day + 1) { 0 }
+    val maxSalary = Array(day + 2) { 0 }
 
-    for (i in 0 until day) {
-        sangdam[i] = sc.nextInt()
-        money[i] = sc.nextInt()
+    for (i in 1.. day) {
+        a[i] = sc.nextInt()
+        b[i] = sc.nextInt()
+    }
 
-        if (day - i < sangdam[i]) {
-            average[i] = 0
-            continue
+    for (i in day  downTo 1) {
+        val nextDay = i + a[i]
+        if (nextDay > day + 1) {
+            maxSalary[i] = maxSalary[i + 1]
+        } else {
+            maxSalary[i] = max(b[i] + maxSalary[nextDay], maxSalary[i + 1])
         }
-
-        average[i] = (money[i] / sangdam[i]).toLong()
-        saveI
     }
 
-    average.sort()
-
-    for (i in 0 until day) {
-        if (average[i] == 0.toLong())
-            continue
-
-
-    }
-
+    println(maxSalary[1])
 }
